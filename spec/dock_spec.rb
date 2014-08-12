@@ -1,8 +1,12 @@
 require 'dock'
+require 'bike'
 
 describe DockingStation do
 	let(:station) {DockingStation.new(:capacity => 20)}
 	let(:bike) {Bike.new}
+	def fill_station(station)
+		20.times {station.dock(Bike.new)}
+	end
 
 	context 'when storing bikes' do
 		it 'can receive bikes' do
@@ -22,8 +26,24 @@ describe DockingStation do
 
 		it 'knows it is full' do
 			expect(station.full?).to eq false
-			20.times {station.dock(Bike.new)}
+			fill_station station
 			expect(station.full?).to eq true
 		end
+
+		it 'should not accept a bike when full' do
+			fill_station station
+			expect(lambda {station.dock(bike)}).to raise_error(RuntimeError)
+		end
 	end
+
+	context 'when renting bikes' do
+		it 'should say what bikes are available' do
+			working_bike, broken_bike = Bike.new, Bike.new
+			working_bike.break!
+			station.dock(broken_bike)
+			station.dock(working_bike)
+			expect(station.available_bikes).to eq([working_bike])
+		end
+	end
+
 end
