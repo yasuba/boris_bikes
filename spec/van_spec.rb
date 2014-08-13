@@ -13,8 +13,8 @@ let(:bike) {Bike.new}
 		expect(van.bike_count).to eq(1)
 	end
 
-	xit 'should not pick up a bike if  full' do
+	it 'should not pick up a bike if  full' do
 		10.times { van.store(bike) }
-		expect(van.store(bike)).to raise_error(RuntimeError, "I'm full!")
+		expect{van.store(bike)}.to raise_error(RuntimeError, "I'm full!")
 	end
 end
