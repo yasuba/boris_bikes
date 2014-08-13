@@ -23,6 +23,7 @@ module BikeContainer
   end
 
   def release(bike)
+    raise if bike_count == 0
     bikes.delete(bike)
   end
 
