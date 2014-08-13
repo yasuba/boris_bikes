@@ -18,7 +18,7 @@ module BikeContainer
   end
 
   def store(bike)
-    raise "Station is full" if full?
+    raise "I'm full!" if full?
     bikes << bike
   end
 
