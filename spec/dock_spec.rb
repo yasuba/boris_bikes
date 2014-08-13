@@ -4,7 +4,6 @@ require 'bike_container'
 
 describe DockingStation do
 	let(:station) {DockingStation.new}
-	let(:bike) {Bike.new}
 
 	def fill_station(station)
 		station.capacity.times {station.store(Bike.new)}

@@ -3,6 +3,7 @@ require 'bike_container'
 RSpec.shared_examples "a BikeContainer" do
 
 	let(:bike) {Bike.new}
+	let(:broken_bike) {Bike.new.break!}
 	let(:bike_container) { described_class.new }
 
 	it 'should accept a bike' do
@@ -12,16 +13,13 @@ RSpec.shared_examples "a BikeContainer" do
 	end
 
 	def fill_bike_container(bike_container)
-		bike_container.capacity.times {bike_container.store(Bike.new)}
+		bike_container.capacity.times {bike_container.store(bike)}
 	end
 
 	context 'when storing bikes' do
 		it 'can receive bikes' do
-			#storeing bike_container starts with no bikes
 			expect(bike_container.bike_count).to eq(0)
-			#store a bike!
 			bike_container.store(bike)
-			#increase the bike_containers's bike count
 			expect(bike_container.bike_count).to eq(1)
 		end
 
@@ -49,22 +47,16 @@ RSpec.shared_examples "a BikeContainer" do
 		end
 
 		it 'should say what bikes are working' do
-			working_bike, broken_bike = Bike.new, Bike.new
-			broken_bike.break!
 			bike_container.store(broken_bike)
-			bike_container.store(working_bike)
-			expect(bike_container.available_bikes).to eq([working_bike])
+			bike_container.store(bike)
+			expect(bike_container.available_bikes).to eq([bike])
 		end
 
 		it 'should say what bikes are broken' do
-			working_bike, broken_bike = Bike.new, Bike.new
-			broken_bike.break!
 			bike_container.store(broken_bike)
-			bike_container.store(working_bike)
+			bike_container.store(bike)
 			expect(bike_container.broken_bikes).to eq([broken_bike])
 		end
-
-		
 	end
 
 	context 'when transferring bikes between containers' do

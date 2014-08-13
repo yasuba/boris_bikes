@@ -10,6 +10,7 @@ class Bike
 
 	def break!
 		@working = false
+		self
 	end
 
 	def fix!
