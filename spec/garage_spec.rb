@@ -3,6 +3,9 @@ require 'dock'
 require 'van'
 
 describe Garage do
+
+	it_behaves_like "a BikeContainer"
+
 	it 'should accept broken bikes' do
 		garage = Garage.new
 		working_bike = Bike.new

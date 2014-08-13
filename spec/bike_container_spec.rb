@@ -1,69 +1,67 @@
 require 'bike_container'
 
-class ContainerHolder; include BikeContainer; end
-
-describe BikeContainer do
+RSpec.shared_examples "a BikeContainer" do
 
 	let(:bike) {Bike.new}
-	let(:holder) {ContainerHolder.new}
+	let(:bike_container) { described_class.new }
 
 	it 'should accept a bike' do
-		expect(holder.bike_count).to eq(0)
-		holder.store(bike)
-		expect(holder.bike_count).to eq(1)
+		expect(bike_container.bike_count).to eq(0)
+		bike_container.store(bike)
+		expect(bike_container.bike_count).to eq(1)
 	end
 
-	def fill_holder(holder)
-		holder.capacity.times {holder.store(Bike.new)}
+	def fill_bike_container(bike_container)
+		bike_container.capacity.times {bike_container.store(Bike.new)}
 	end
 
 	context 'when storing bikes' do
 		it 'can receive bikes' do
-			#storeing holder starts with no bikes
-			expect(holder.bike_count).to eq(0)
+			#storeing bike_container starts with no bikes
+			expect(bike_container.bike_count).to eq(0)
 			#store a bike!
-			holder.store(bike)
-			#increase the holders's bike count
-			expect(holder.bike_count).to eq(1)
+			bike_container.store(bike)
+			#increase the bike_containers's bike count
+			expect(bike_container.bike_count).to eq(1)
 		end
 
 		it 'can release bikes' do
-			holder.store(bike)
-			holder.release(bike)
-			expect(holder.bike_count).to eq(0)
+			bike_container.store(bike)
+			bike_container.release(bike)
+			expect(bike_container.bike_count).to eq(0)
 		end
 
 		it 'knows it is full' do
-			expect(holder.full?).to eq false
-			fill_holder(holder)
-			expect(holder.full?).to eq true
+			expect(bike_container.full?).to eq false
+			fill_bike_container(bike_container)
+			expect(bike_container.full?).to eq true
 		end
 
 		it 'should not accept a bike when full' do
-			fill_holder holder
-			expect(lambda {holder.store(bike)}).to raise_error
+			fill_bike_container bike_container
+			expect(lambda {bike_container.store(bike)}).to raise_error
 		end
 	end
 
 	context 'when releasing bikes' do
 		it 'should not release a bike when empty' do
-			expect{ holder.release(bike) }.to raise_error
+			expect{ bike_container.release(bike) }.to raise_error
 		end
 
 		it 'should say what bikes are working' do
 			working_bike, broken_bike = Bike.new, Bike.new
 			broken_bike.break!
-			holder.store(broken_bike)
-			holder.store(working_bike)
-			expect(holder.available_bikes).to eq([working_bike])
+			bike_container.store(broken_bike)
+			bike_container.store(working_bike)
+			expect(bike_container.available_bikes).to eq([working_bike])
 		end
 
 		it 'should say what bikes are broken' do
 			working_bike, broken_bike = Bike.new, Bike.new
 			broken_bike.break!
-			holder.store(broken_bike)
-			holder.store(working_bike)
-			expect(holder.broken_bikes).to eq([broken_bike])
+			bike_container.store(broken_bike)
+			bike_container.store(working_bike)
+			expect(bike_container.broken_bikes).to eq([broken_bike])
 		end
 
 		
@@ -71,12 +69,12 @@ describe BikeContainer do
 
 	context 'when transferring bikes between containers' do
 		it 'the bike released is the same as the bike accepted' do
-			holder1, holder2 = ContainerHolder.new, ContainerHolder.new
-			holder1.store(bike)
+			bike_container1, bike_container2 = bike_container, bike_container
+			bike_container1.store(bike)
 			bike_id = bike.object_id
-			holder1.release(bike)
-			holder2.store(bike)
-			expect(holder2.available_bikes.pop.object_id).to eq(bike_id)
+			bike_container1.release(bike)
+			bike_container2.store(bike)
+			expect(bike_container2.available_bikes.pop.object_id).to eq(bike_id)
 		end
 	end
 

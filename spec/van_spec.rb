@@ -7,6 +7,8 @@ let(:van) {Van.new(:capacity => 10)}
 let(:broken_bike) {Bike.new}
 let(:bike) {Bike.new}
 
+	it_behaves_like "a BikeContainer"
+
 	it 'picks up broken bikes' do
 		# expect(van.bike_count).to eq(0)
 		# broken_bike = Bike.new
