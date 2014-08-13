@@ -34,4 +34,8 @@ module BikeContainer
     bikes.select { |bike| bike.working? }
   end
 
+  def broken_bikes
+    bikes.select { |bike| bike.broken? }
+  end
+
 end
