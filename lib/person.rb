@@ -10,4 +10,9 @@ class Person
 	def take(bike)
 		@bikes << bike
 	end
+
+	def return_bike
+		raise "I don't have a bike" if has_bike? == false
+		@bikes.pop
+	end
 end
