@@ -33,6 +33,12 @@ describe BikeContainer do
 			expect(holder.bike_count).to eq(0)
 		end
 
+		it 'will not release a bike if it has no bikes' do
+			if holder.bike_count == 0
+			expect {holder.release(bike)}.to raise_error
+			end
+		end
+
 		it 'knows it is full' do
 			expect(holder.full?).to eq false
 			fill_holder(holder)
@@ -60,6 +66,17 @@ describe BikeContainer do
 			holder.store(broken_bike)
 			holder.store(working_bike)
 			expect(holder.broken_bikes).to eq([broken_bike])
+		end
+	end
+
+	context 'when transferring bikes between containers' do
+		it 'the bike released is the same as the bike accepted' do
+			holder1, holder2 = ContainerHolder.new, ContainerHolder.new
+			holder1.store(bike)
+			bike_id = bike.object_id
+			holder1.release(bike)
+			holder2.store(bike)
+			expect(holder2.available_bikes.pop.object_id).to eq(bike_id)
 		end
 	end
 

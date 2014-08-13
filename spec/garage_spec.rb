@@ -6,6 +6,7 @@ describe Garage do
 	it 'should accept broken bikes' do
 		garage = Garage.new
 		working_bike = Bike.new
+		working_bike.break!
 		expect(garage.accept(working_bike)).to eq([working_bike])
 	end
 
@@ -21,5 +22,13 @@ describe Garage do
 		garage = Garage.new
 		working_bike = Bike.new
 		expect{ garage.accept(working_bike) }.to raise_error
+	end
+
+	it 'should return fixed bikes to van' do
+		garage = Garage.new
+		working_bike = Bike.new
+		garage.store(working_bike)
+		garage.release(working_bike)
+		expect(garage.bike_count).to eq(0)
 	end
 end
