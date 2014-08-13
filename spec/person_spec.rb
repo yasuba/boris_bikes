@@ -1,4 +1,5 @@
 require 'person'
+require 'bike_container'
 
 describe Person do
 
@@ -22,5 +23,11 @@ describe Person do
 
 	it 'cannot return a bike when it has no bikes' do
 		expect{ person.return_bike }.to raise_error
+	end
+
+	it 'can break a bike' do
+		person.take(bike)
+		bike.break!
+		expect(person.broken_bikes.count).to eq (1)
 	end
 end
