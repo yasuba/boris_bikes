@@ -4,16 +4,17 @@ class Bike
     fix!
   end
 
-  def broken?
-    @broken
+  def working?
+    @working
   end
 
   def break!
-    @broken = true
+    @working = false
+    return self
   end
 
   def fix!
-    @broken = false
+    @working = true
   end
 
 end

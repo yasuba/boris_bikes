@@ -16,5 +16,4 @@ describe Van do
     expect(van.dock(:broken_bike)).to have_bike
   end
 
-
 end
