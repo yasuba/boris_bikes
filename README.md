@@ -10,7 +10,8 @@ We have been challenged to write a simple system that manages the Boris Bike hir
 * Test-driven development using RSpec
 * CRC cards (class responsibility collaboration)
 
+##Run the tests
 
-
-
-
+    git clone git@github.com:yasuba/boris_bikes.git
+    cd boris_bikes
+    rspec
