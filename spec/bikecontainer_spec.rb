@@ -1,13 +1,13 @@
 require 'bikecontainer'
 require 'docking_station'
 
-class ContainerHolder; include BikeContainer; end
+RSpec.shared_examples "a BikeContainer" do
 
 describe BikeContainer do
   let(:holder) {BikeContainer.new}
   let(:station) {DockingStation.new}
-  let(:bike) {double :bike, broken?: false}
-  let(:broken_bike) {double :bike, broken?: true}
+  let(:bike) {double :bike, working?: true}
+  let(:broken_bike) {double :bike, working?: false}
 
   it 'has no bikes' do
     expect(station).not_to have_bikes
@@ -44,5 +44,6 @@ describe BikeContainer do
   it 'should not release bikes when it is empty' do
     expect{station.release_broken_bikes}.to raise_error
   end
+end
 
 end

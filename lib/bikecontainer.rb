@@ -1,6 +1,6 @@
 module BikeContainer
 
-  IS_BROKEN = -> (bike) {bike.broken?}
+  IS_WORKING = -> (bike) {bike.working?}
   BIKECONTAINER_CAPACITY = 20
 
   def initialize
@@ -18,11 +18,11 @@ module BikeContainer
   end
 
   def broken_bikes
-    @bikes.select &IS_BROKEN
+    @bikes.reject &IS_WORKING
   end
 
   def working_bikes
-    @bikes.reject &IS_BROKEN
+    @bikes.select &IS_WORKING
   end
 
   def release_working_bikes
